@@ -6,7 +6,7 @@ import ViewNotes from './notes/List';
 const Router = () => {
   return (
     <Switch>
-      <Route path="/create">
+      <Route path="/add">
         <CreateNote />
       </Route>
       <Route path="/">
