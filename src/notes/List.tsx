@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import type { Note } from 'src/interfaces';
 import Viewer from './Viewer';
 
@@ -29,25 +29,36 @@ const ViewNotes = () => {
 
   return (
     <div className="flex flex-col md:flex-row justify-items-stretch w-full relative">
-      <section id="notes-list" className="md:w-2/5 px-4 py-2">
-        <ul>
-          {notesArr.map(({ message, timestamp, id }, i) => (
-            <li key={id}>
-              <NavLink
-                to={`/notes/${id}`}
-                activeClassName="bg-blue-200 rounded"
-                className="flex justify-between px-2 py-3 mb-2 items-center"
-              >
-                <span>{message}</span>
-                <span className="italic text-xs font-medium tracking-wide">
-                  {getDate(timestamp)}
-                </span>
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+      <section className="notes-list md:w-2/5 px-4 py-2">
+        {!!notesArr.length && (
+          <ul>
+            {notesArr.map(({ message, timestamp, id }, i) => (
+              <li key={id}>
+                <NavLink
+                  to={`/notes/${id}`}
+                  activeClassName="bg-blue-200 rounded"
+                  className="flex justify-between px-2 py-3 mb-2 items-center border-b-2 border-gray-200"
+                >
+                  <span>{message}</span>
+                  <span className="italic text-xs font-medium tracking-wide">
+                    {getDate(timestamp)}
+                  </span>
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        )}
+        {!!!notesArr.length && (
+          <p>
+            No notes were found,{' '}
+            <Link to="/add" className="text-indigo-500">
+              create a new note
+            </Link>
+            .
+          </p>
+        )}
       </section>
-      <section id="notes-viewer" className="bg-red-200 md:flex-grow px-4 py-2">
+      <section className="notes-viewer md:flex-grow md:ml-10 px-4 py-2">
         <Viewer />
       </section>
     </div>

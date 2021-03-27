@@ -12,6 +12,7 @@ const Footer = () => {
       >
         Anand Kashyap
       </a>
+      &copy; {new Date().getFullYear()}
     </footer>
   );
 };
