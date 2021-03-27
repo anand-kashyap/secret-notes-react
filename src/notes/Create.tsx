@@ -23,7 +23,7 @@ const CreateNote = () => {
     firstCaps = (str: string) => str[0].toUpperCase() + str.slice(1);
 
   useEffect(() => {
-    (msgInp.current as any).focus();
+    // (msgInp.current as any).focus();
   }, []);
 
   return (
@@ -42,12 +42,13 @@ const CreateNote = () => {
           return errors;
         }}
         onSubmit={(values, actions) => {
-          console.log({ values, actions });
-          alert(JSON.stringify(values, null, 2));
+          // todo - send to api
+          console.log(values);
+
           actions.setSubmitting(false);
         }}
       >
-        {({ errors, setFieldValue }) => (
+        {({ errors, setFieldValue, isSubmitting }) => (
           <Form className="flex flex-col mt-2">
             <div className="flex flex-col">
               <label htmlFor="message" className="">
@@ -99,6 +100,7 @@ const CreateNote = () => {
             </div>
             <button
               type="submit"
+              disabled={isSubmitting}
               className="text-white text-md tracking-wide py-3 bg-blue-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-blue-200 hover:bg-blue-700 transform transition hover:scale-105 motion-reduce:transform-none w-full self-center mt-4"
             >
               Add
