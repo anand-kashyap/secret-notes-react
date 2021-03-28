@@ -1,6 +1,7 @@
 import { Form, Formik, FormikProps, FormikValues } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
+import type { Note } from 'src/interfaces';
 import EditIcon from '../icons/edit.svgr.svg';
 import KeyIcon from '../icons/key.svgr.svg';
 import TrashIcon from '../icons/trash.svgr.svg';
@@ -10,25 +11,30 @@ const NoteView = () => {
   const { noteId } = useParams<{ noteId: string }>();
   const [canEdit, setCanEdit] = useState(false),
     [isDecrypted, setIsDecrypted] = useState(false),
-    [encMsg, setEncMsg] = useState('');
+    [note, setNote] = useState<Note>();
   const form = useRef<FormikProps<FormikValues>>(null);
 
   const getNoteById = (id: number) => {
-    const note = {
+    const d = new Date();
+    const note: Note = {
+      id,
       message: 'iggaM' + noteId,
       encryption: 'backwards',
+      timestamp: d.toDateString() + ' at ' + d.toLocaleTimeString(),
     };
-    form.current?.setValues(note);
-    setEncMsg(note.message);
+    form.current?.setFieldValue('encryption', note.encryption);
+    setNote(note);
   };
 
   const decryptMsg = () => {
     //todo - get decrypted from api
     const formRef = form.current;
-    if (formRef) {
-      const { message, encryption } = formRef.values as any;
-      if (encryption === 'backwards') {
-        formRef.setFieldValue('message', message.split('').reverse().join(''));
+    if (formRef && note) {
+      if (note.encryption === 'backwards') {
+        formRef.setFieldValue(
+          'message',
+          note.message.split('').reverse().join(''),
+        );
       }
     }
   };
@@ -38,22 +44,27 @@ const NoteView = () => {
     setIsDecrypted(false);
   }, [noteId]);
 
+  useEffect(() => {
+    if (isDecrypted) {
+      decryptMsg();
+    } else {
+      form.current?.setFieldValue('message', 'XXXX');
+    }
+  }, [isDecrypted]);
+
+  useEffect(() => {
+    setIsDecrypted(canEdit);
+  }, [canEdit]);
+
   return (
-    <div className="w-2/3">
-      <div className="flex justify-between items-center">
+    <div className="">
+      <div className="flex justify-between items-center pb-1 border-b-2 border-gray-200">
         <p>Note No. {noteId}</p>
-        <div className="flex">
+        <div className="flex items-center">
+          <p className="text-xs">{note?.timestamp}</p>
           <button
             disabled={canEdit}
-            onClick={() => {
-              if (!isDecrypted) {
-                decryptMsg();
-              } else {
-                form.current?.setFieldValue('message', encMsg);
-              }
-              setIsDecrypted(!isDecrypted);
-              setCanEdit(false);
-            }}
+            onClick={() => setIsDecrypted(!isDecrypted)}
             className={`p-1 ml-1 focus:outline-none hover:text-green-500 disabled:opacity-50 border-2 border-transparent cursor-pointer rounded ${
               isDecrypted ? 'border-green-500 text-green-500' : ''
             }`}
@@ -64,10 +75,7 @@ const NoteView = () => {
             className={`p-1 ml-1 focus:outline-none border-2 border-transparent cursor-pointer rounded ${
               canEdit ? 'border-blue-700 text-blue-700' : ''
             }`}
-            onClick={() => {
-              setCanEdit(!canEdit);
-              setIsDecrypted(false);
-            }}
+            onClick={() => setCanEdit(!canEdit)}
           >
             <EditIcon
               width="25"
@@ -84,14 +92,15 @@ const NoteView = () => {
           </button>
         </div>
       </div>
-      <p className="text-sm font-light italic tracking-wider">
-        Click on Key icon to decrypt message
-      </p>
-      <div className="">
+      <div className="mt-3">
+        <div>
+          <p className="">Encrypted Message</p>
+          <p className="font-light">{note?.message}</p>
+        </div>
         <fieldset disabled={!canEdit}>
           <Formik
             initialValues={{
-              message: 'XXX',
+              message: 'XXXX',
               encryption: 'nothing',
             }}
             innerRef={form}
@@ -105,7 +114,11 @@ const NoteView = () => {
           >
             {({ errors, touched, setFieldValue, isSubmitting }) => (
               <Form className="flex flex-col mt-2">
-                <NoteMessage touched={touched} errors={errors} />
+                <NoteMessage
+                  label="Decrypted Message"
+                  touched={touched}
+                  errors={errors}
+                />
                 <Encryption setFieldValue={setFieldValue} />
                 {canEdit && (
                   <div className="flex">
