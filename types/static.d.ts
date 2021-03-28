@@ -31,8 +31,11 @@ declare module '*.less';
 declare module '*.styl';
 
 /* IMAGES */
-declare module '*.svg' {
-  const ref: string;
+declare module '*.svgr.svg' {
+  const ref: React.ForwardRefRenderFunction<
+    SVGSVGElement,
+    React.SVGAttributes<SVGSVGElement>
+  >;
   export default ref;
 }
 declare module '*.bmp' {

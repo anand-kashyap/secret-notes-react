@@ -10,9 +10,9 @@ html,
   height: 100%;
 }
 body {
-  margin: 20px 2rem;
+  margin: 10px 2rem;
   width: calc(100% - 4rem);
-  height: calc(100% - 40px);
+  height: calc(100% - 20px);
 }
 
 main {

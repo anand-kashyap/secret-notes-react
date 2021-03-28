@@ -16,9 +16,9 @@ const CreateNote = () => {
           actions.setSubmitting(false);
         }}
       >
-        {({ errors, setFieldValue, isSubmitting }) => (
+        {({ errors, touched, setFieldValue, isSubmitting }) => (
           <Form className="flex flex-col mt-2">
-            <NoteMessage errors={errors} />
+            <NoteMessage errors={errors} touched={touched} />
             <Encryption setFieldValue={setFieldValue} />
             <RingButton disabled={isSubmitting} />
           </Form>
