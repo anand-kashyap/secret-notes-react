@@ -30,4 +30,7 @@ module.exports = {
   buildOptions: {
     /* ... */
   },
+  alias: {
+    "~": "./src",
+  }
 };

@@ -4,11 +4,11 @@ import AddIcon from '../icons/add.svgr.svg';
 
 const Header = () => {
   return (
-    <header className="flex justify-between">
+    <header className="flex justify-between mx-4">
       <h1 className="text-2xl">
         <Link to="/">Secret Notes</Link>
       </h1>
-      <nav>
+      <nav className="flex">
         <ul className="flex flex-row items-center">
           <li className="mx-2">
             <Link
@@ -20,15 +20,15 @@ const Header = () => {
           </li>
           <li className="mx-2">
             <Link
-              className="text-white p-3 bg-blue-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 hover:bg-blue-700 flex items-center"
+              className="text-white p-3 bg-blue-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 hover:bg-blue-700"
               to="/add"
             >
               <AddIcon
                 width="20"
                 height="20"
-                className="fill-current text-white"
+                className="fill-current text-white inline-block"
               />
-              <span className="ml-1">Add Note</span>
+              <span className="ml-1 align-middle">Add Note</span>
             </Link>
           </li>
         </ul>

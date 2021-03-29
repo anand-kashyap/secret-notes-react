@@ -9,7 +9,7 @@ interface AppProps {}
 function App({}: AppProps) {
   return (
     <Router>
-      <div className="relative h-full">
+      <div className="relative c-container">
         <Header />
         <main className="flex place-content-center">
           <AppRouter />

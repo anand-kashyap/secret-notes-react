@@ -2,24 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  box-sizing: border-box;
-}
 html,
+body,
 #root {
   height: 100%;
 }
-body {
-  margin: 10px 2rem;
-  width: calc(100% - 4rem);
-  height: calc(100% - 20px);
-}
 
 main {
-  margin-top: 30px;
-  height: calc(100% - 100px);
+  margin-top: 5px;
+  height: calc(100% - 90px);
 }
 
+.c-container {
+  height: 100%;
+  padding: 20px 0;
+}
 .notes-viewer {
   position: absolute;
   width: 100%;
@@ -44,4 +41,10 @@ main {
     height: initial;
     margin-top: initial;
   }
+}
+
+.modal {
+  width: 60%;
+  left: 20%;
+  z-index: 2;
 }

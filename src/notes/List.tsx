@@ -36,12 +36,12 @@ const ViewNotes = () => {
               <li key={id}>
                 <NavLink
                   to={`/notes/${id}`}
-                  activeClassName="bg-blue-200 rounded"
-                  className="flex justify-between px-2 py-3 mb-2 items-center border-b-2 border-gray-200"
+                  activeClassName="bg-blue-100 rounded"
+                  className="flex justify-between px-2 py-3 mb-2 items-center border-2 border-gray-200 rounded"
                 >
                   <span>{message}</span>
                   <span className="italic text-xs font-medium tracking-wide">
-                    {getDate(timestamp)}
+                    {getDate(timestamp as string)}
                   </span>
                 </NavLink>
               </li>
