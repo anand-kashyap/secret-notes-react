@@ -9,15 +9,15 @@ const Encryption = ({
   const encryptions = [
     { name: 'nothing' },
     { name: 'backwards' },
-    { name: 'emo-gize', desc: '1 to 1 mapping of letters to emojis' },
+    { name: 'emo-gize', description: '1 to 1 mapping of letters to emojis' },
     {
       name: 'letter-scramble',
-      desc: '1 to 1 mapping of one letter to another',
+      description: '1 to 1 mapping of one letter to another',
     },
   ];
-  const keyToDesc = encryptions.reduce((obj: any, { name, desc }) => {
-    if (desc) {
-      obj[name] = desc;
+  const keyToDesc = encryptions.reduce((obj: any, { name, description }) => {
+    if (description) {
+      obj[name] = description;
     }
     return obj;
   }, {});
