@@ -11,7 +11,7 @@ function App({}: AppProps) {
     <Router>
       <div className="relative c-container">
         <Header />
-        <main className="flex place-content-center">
+        <main className="flex place-content-center items-start">
           <AppRouter />
         </main>
         <Footer />

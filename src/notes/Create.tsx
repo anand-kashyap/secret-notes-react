@@ -4,7 +4,7 @@ import { Encryption, NoteMessage, RingButton } from '../utils';
 
 const CreateNote = () => {
   return (
-    <section className="border-2 border-black-200 px-7 py-4 w-2/3 md:w-1/2 xl:w-1/3 rounded-md shadow-xl h-3/4">
+    <section className="border-2 border-black-200 px-7 py-4 w-2/3 md:w-1/2 xl:w-1/3 rounded-md shadow-xl">
       <h1 className="text-xl italic font-semibold">Add a New Note</h1>
       <Formik
         initialValues={{ message: '', encryption: 'nothing' }}
