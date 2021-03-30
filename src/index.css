@@ -43,8 +43,26 @@ main {
   }
 }
 
-.modal {
-  width: 60%;
-  left: 20%;
+body {
+  position: relative;
+}
+.overlay {
+  width: 100%;
+  position: absolute;
+  height: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+
+  background-color: #0000005e;
   z-index: 2;
+  vertical-align: middle;
+}
+
+.modal {
+  position: relative;
+  width: 50%;
+  left: 25%;
+  top: 30%;
 }

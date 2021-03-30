@@ -70,7 +70,7 @@ const NoteHead = ({
               </button>
             </div>
           </div>
-          <Modal show={isDel} />
+          <Modal show={isDel} closeModal={() => setIsDel(false)} />
         </>
       )}
     </>
