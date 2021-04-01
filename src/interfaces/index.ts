@@ -5,4 +5,8 @@ interface Note {
   timestamp: string | Date;
 }
 
-export { Note };
+interface Encryption {
+  name: string;
+  description?: string;
+}
+export { Note, Encryption };

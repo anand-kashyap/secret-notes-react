@@ -22,8 +22,17 @@ const NoteHead = ({
 }: INoteHead) => {
   const [isDel, setIsDel] = useState(false);
 
+  const [timestamp, setTimestamp] = useState<Date | null>(null);
+
   useEffect(() => {
     setIsDel(false);
+    if (note?.timestamp) {
+      const t =
+        typeof note.timestamp === 'string'
+          ? new Date(note.timestamp)
+          : note.timestamp;
+      setTimestamp(t);
+    }
   }, [note]);
 
   return (
@@ -33,13 +42,13 @@ const NoteHead = ({
           <div className="flex justify-between items-center pb-1 border-b-2 border-gray-200">
             <p>Note No. {note.id}</p>
             <div className="flex items-center">
-              {note.timestamp && (
+              {timestamp && (
                 <div>
                   <p className="text-xs font-medium">
-                    {(note.timestamp as Date).toDateString()}
+                    {timestamp.toDateString()}
                   </p>
                   <p className="text-xs font-medium text-right">
-                    {(note.timestamp as Date).toLocaleTimeString()}
+                    {timestamp.toLocaleTimeString()}
                   </p>
                 </div>
               )}

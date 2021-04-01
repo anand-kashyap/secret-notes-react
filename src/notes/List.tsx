@@ -1,29 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import type { Note } from 'src/interfaces';
+import { axios } from '~/utils';
 import Viewer from './Viewer';
 
 const ViewNotes = () => {
-  const notesArr: Note[] = [
-    {
-      id: 1,
-      message: 'iggaM',
-      encryption: 'backwards',
-      timestamp: new Date().toISOString(),
-    },
-    {
-      id: 2,
-      message: 'si iggaM',
-      encryption: 'backwards',
-      timestamp: new Date().toISOString(),
-    },
-    {
-      id: 3,
-      message: 'led iggaM',
-      encryption: 'backwards',
-      timestamp: new Date().toISOString(),
-    },
-  ];
+  const [notesArr, setNotesArr] = useState<Note[]>([]);
+
+  useEffect(() => {
+    axios.get('notes').then(({ data }) => setNotesArr(data));
+  }, []);
 
   const getDate = (d: string) => new Date(d).toDateString();
 
@@ -35,7 +21,7 @@ const ViewNotes = () => {
             {notesArr.map(({ message, timestamp, id }, i) => (
               <li key={id}>
                 <NavLink
-                  to={`/notes/${id}`}
+                  to={{ pathname: `/notes/${id}`, state: notesArr[i] }}
                   activeClassName="bg-blue-100 rounded"
                   className="flex justify-between px-2 py-3 mb-2 items-center border-2 border-gray-200 rounded"
                 >
