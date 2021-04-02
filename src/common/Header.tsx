@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <header className="flex justify-between mx-4">
       <h1 className="text-2xl">
-        <Link to="/notes">Secret Notes</Link>
+        <Link to="/">Secret Notes</Link>
       </h1>
       <nav className="flex">
         <ul className="flex flex-row items-center">

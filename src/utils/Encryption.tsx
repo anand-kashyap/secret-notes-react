@@ -26,7 +26,7 @@ const Encryption = ({
         as="select"
         id="encryption"
         name="encryption"
-        className="border-2 border-black-300 focus:outline-none focus:ring-2 focus:ring-blue-400 px-1 py-2 rounded-sm mt-2"
+        className="border-2 border-black-300 focus:outline-none focus:ring-2 focus:ring-blue-400 px-2 py-2 rounded-sm mt-2"
         onChange={({ target: { value } }: any) => {
           const val = encArr[value];
           console.log('val', val);
