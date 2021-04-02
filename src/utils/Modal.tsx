@@ -29,7 +29,7 @@ const Modal = ({ show = false, closeModal, note }: IModal) => {
         qClient.invalidateQueries('notes');
         history.replace('/notes');
       })
-      .finally(() => setIsDeleting(false));
+      .catch(() => setIsDeleting(false));
   };
   return (
     <Portal>
