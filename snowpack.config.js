@@ -24,7 +24,8 @@ module.exports = {
     /* ... */
   },
   devOptions: {
-    hmr: false
+    hmr: false,
+    port: 2000,
     /* ... */
   },
   buildOptions: {

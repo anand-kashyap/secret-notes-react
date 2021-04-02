@@ -40,11 +40,13 @@ const ViewNotes = () => {
                   activeClassName="bg-blue-100 rounded"
                   className="flex justify-between px-2 py-3 mb-2 items-center border-2 border-gray-200 rounded"
                 >
-                  <div>
-                    {encObj && <span>{encObj[encryption].name}</span>}
-                    <span>{message}</span>
-                  </div>
-                  <span className="italic text-xs font-medium tracking-wide">
+                  {/* <div> */}
+                  {/* {encObj && <span>{encObj[encryption].name}</span>} */}
+                  <span className="whitespace-nowrap mr-2 overflow-ellipsis overflow-hidden">
+                    {message}
+                  </span>
+                  {/* </div> */}
+                  <span className="flex-none italic text-xs font-medium tracking-wide">
                     {getDate(timestamp as string)}
                   </span>
                 </NavLink>

@@ -1,9 +1,11 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Footer from './common/Footer';
 import Header from './common/Header';
 import AppRouter from './Router';
+
 interface AppProps {}
 
 // Create a client
@@ -22,6 +24,7 @@ function App({}: AppProps) {
           <Footer />
         </div>
       </Router>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
