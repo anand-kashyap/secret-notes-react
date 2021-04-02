@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { Link, NavLink } from 'react-router-dom';
-import type { IEncryption, Note } from 'src/interfaces';
+import type { Note } from 'src/interfaces';
 import { axios } from '~/utils';
 import Viewer from './Viewer';
 
@@ -10,19 +10,6 @@ const ViewNotes = () => {
     'notes',
     () => axios.get('/notes').then(({ data }) => data),
     { refetchOnWindowFocus: false },
-  );
-  const { data: encObj } = useQuery<IEncryption[]>(
-    'encArr',
-    () =>
-      axios.get<IEncryption[]>('/encryptions').then(({ data }) => {
-        console.log(data);
-        const obj = data.reduce((initObj: IEncryption[], v) => {
-          initObj[v.id] = v;
-          return initObj;
-        }, []);
-        return obj;
-      }),
-    { refetchOnWindowFocus: false, cacheTime: 1000 * 60 * 60 },
   );
 
   const getDate = (d: string) => new Date(d).toDateString();

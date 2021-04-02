@@ -14,7 +14,7 @@ const UpdateForm = ({ form, canEdit, setCanEdit }: IUpdateForm) => {
       <Formik
         initialValues={{
           message: 'XXXX',
-          encryption: 'nothing',
+          encryption: '1',
         }}
         innerRef={form}
         validateOnChange={true}

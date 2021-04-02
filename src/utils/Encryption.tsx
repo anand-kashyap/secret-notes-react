@@ -1,20 +1,21 @@
 import { Field } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { useQueryClient } from 'react-query';
 import type { IEncryption } from '~/interfaces';
+import { useEnc } from './useEnc';
 
 const Encryption = ({
   setFieldValue,
 }: {
   setFieldValue: (field: string, value: any) => void;
 }) => {
-  const qClient = useQueryClient();
+  const { data } = useEnc();
   const [encArr, setEncArr] = useState<IEncryption[]>([]);
 
   useEffect(() => {
-    const enc = qClient.getQueryData('encArr');
-    setEncArr(enc as IEncryption[]);
-  }, []);
+    if (data) {
+      setEncArr(data);
+    }
+  }, [data]);
 
   const [helpText, setHelpText] = useState(''),
     firstCaps = (str: string) => str[0].toUpperCase() + str.slice(1);

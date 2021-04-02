@@ -24,7 +24,7 @@ const Modal = ({ show = false, closeModal, note }: IModal) => {
   const deleteNote = () => {
     setIsDeleting(true);
     axios
-      .delete(`/notes/delete/${note.id}`)
+      .delete(`/notes/${note.id}`)
       .then(() => {
         qClient.invalidateQueries('notes');
         history.replace('/notes');
