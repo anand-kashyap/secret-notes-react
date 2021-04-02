@@ -1,12 +1,13 @@
 interface Note {
   id: number;
   message: string;
-  encryption: string;
+  encryption: number; // foreign key
   timestamp: string | Date;
 }
 
-interface Encryption {
+interface IEncryption {
+  id: number;
   name: string;
   description?: string;
 }
-export { Note, Encryption };
+export { Note, IEncryption };

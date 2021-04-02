@@ -1,26 +1,20 @@
 import { Field } from 'formik';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useQueryClient } from 'react-query';
+import type { IEncryption } from '~/interfaces';
 
 const Encryption = ({
   setFieldValue,
 }: {
   setFieldValue: (field: string, value: any) => void;
 }) => {
-  const encryptions = [
-    { name: 'nothing' },
-    { name: 'backwards' },
-    { name: 'emo-gize', description: '1 to 1 mapping of letters to emojis' },
-    {
-      name: 'letter-scramble',
-      description: '1 to 1 mapping of one letter to another',
-    },
-  ];
-  const keyToDesc = encryptions.reduce((obj: any, { name, description }) => {
-    if (description) {
-      obj[name] = description;
-    }
-    return obj;
-  }, {});
+  const qClient = useQueryClient();
+  const [encArr, setEncArr] = useState<IEncryption[]>([]);
+
+  useEffect(() => {
+    const enc = qClient.getQueryData('encArr');
+    setEncArr(enc as IEncryption[]);
+  }, []);
 
   const [helpText, setHelpText] = useState(''),
     firstCaps = (str: string) => str[0].toUpperCase() + str.slice(1);
@@ -34,13 +28,16 @@ const Encryption = ({
         name="encryption"
         className="border-2 border-black-300 focus:outline-none focus:ring-2 focus:ring-blue-400 px-1 py-2 rounded-sm mt-2"
         onChange={({ target: { value } }: any) => {
-          const val = keyToDesc[value] || '';
-          setHelpText(val);
+          const val = encArr[value];
+          console.log('val', val);
+          if (val?.description) {
+            setHelpText(val.description);
+          }
           setFieldValue('encryption', value);
         }}
       >
-        {encryptions.map(({ name }) => (
-          <option value={name} key={name}>
+        {encArr?.map(({ name, id }) => (
+          <option value={id} key={id}>
             {firstCaps(name)}
           </option>
         ))}

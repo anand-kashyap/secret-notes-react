@@ -6,13 +6,13 @@ const Header = () => {
   return (
     <header className="flex justify-between mx-4">
       <h1 className="text-2xl">
-        <Link to="/">Secret Notes</Link>
+        <Link to="/notes">Secret Notes</Link>
       </h1>
       <nav className="flex">
         <ul className="flex flex-row items-center">
           <li className="mx-2">
             <Link
-              to="/"
+              to="/notes"
               className="p-3 rounded-md focus:outline-none text-blue-600 ring-2 ring-blue-600 hover:bg-blue-100"
             >
               View Notes
