@@ -8,7 +8,7 @@ import {
   useParams,
   useRouteMatch,
 } from 'react-router-dom';
-import type { Note } from 'src/interfaces';
+import type { IEncryption, Note } from 'src/interfaces';
 import { axios, useEnc } from '~/utils';
 import EncMessageViewer from './EncMessageViewer';
 import NoteHead from './viewer/NoteHead';
@@ -89,6 +89,15 @@ const NoteView = () => {
       form.current?.setFieldValue('encryption', note.encryption) &&
       setReset(true);
   };
+
+  const updateNote = (values: any) => {
+    return axios.patch('/notes', {
+      id: note?.id,
+      encName: (encObj as IEncryption[])[values.encryption].name,
+      ...values,
+    });
+  };
+
   return (
     <div className="">
       <NoteHead
@@ -112,6 +121,7 @@ const NoteView = () => {
             canEdit={canEdit}
             form={form}
             setCanEdit={setCanEdit}
+            updateForm={updateNote}
           />
         </div>
       )}

@@ -1,6 +1,6 @@
-# New Project
+# Project
 
-> ✨ Bootstrapped with Create Snowpack App (CSA).
+> Secret notes - Create encrypted persistent notes with option to decrypt, update, delete
 
 ## Available Scripts
 

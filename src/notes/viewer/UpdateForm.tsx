@@ -1,5 +1,6 @@
 import { Form, Formik, FormikProps, FormikValues } from 'formik';
 import React, { Ref } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Encryption, NoteMessage, RingButton } from '~/utils';
 
 interface IUpdateForm {
@@ -8,6 +9,7 @@ interface IUpdateForm {
   canEdit: boolean;
   reset: boolean;
   setCanEdit: (edit: boolean) => void;
+  updateForm: (vals: any) => Promise<any>;
 }
 
 const UpdateForm = ({
@@ -16,7 +18,10 @@ const UpdateForm = ({
   reset,
   setInitial,
   setCanEdit,
+  updateForm,
 }: IUpdateForm) => {
+  const history = useHistory();
+
   return (
     <fieldset disabled={!canEdit}>
       <Formik
@@ -27,10 +32,14 @@ const UpdateForm = ({
         innerRef={form}
         validateOnChange={true}
         onSubmit={(values, actions) => {
-          // todo - send to api
           console.log(values);
-
-          actions.setSubmitting(false);
+          actions.setSubmitting(true);
+          updateForm(values).finally(() => {
+            actions.setSubmitting(false);
+            const noteUrl = location.pathname;
+            history.push('/');
+            history.push(noteUrl);
+          });
         }}
       >
         {({ errors, touched, setFieldValue, isSubmitting }) => (
