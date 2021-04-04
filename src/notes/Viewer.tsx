@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 import type { Note } from 'src/interfaces';
 import { axios, useEnc } from '~/utils';
+import EncMessageViewer from './EncMessageViewer';
 import NoteHead from './viewer/NoteHead';
 import UpdateForm from './viewer/UpdateForm';
 
@@ -101,7 +102,9 @@ const NoteView = () => {
         <div className="mt-3">
           <div>
             <p className="">Encrypted Message</p>
-            <p className="">{note?.message}</p>
+            <p className="">
+              <EncMessageViewer message={note.message} enc={note.encryption} />
+            </p>
           </div>
           <UpdateForm
             setInitial={setInitial}

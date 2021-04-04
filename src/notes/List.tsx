@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { Link, NavLink } from 'react-router-dom';
 import type { Note } from 'src/interfaces';
 import { axios } from '~/utils';
+import EncMessageViewer from './EncMessageViewer';
 import Viewer from './Viewer';
 
 const ViewNotes = () => {
@@ -30,7 +31,7 @@ const ViewNotes = () => {
                   {/* <div> */}
                   {/* {encObj && <span>{encObj[encryption].name}</span>} */}
                   <span className="whitespace-nowrap mr-2 overflow-ellipsis overflow-hidden">
-                    {message}
+                    <EncMessageViewer message={message} enc={encryption} />
                   </span>
                   {/* </div> */}
                   <span className="flex-none italic text-xs font-medium tracking-wide">
