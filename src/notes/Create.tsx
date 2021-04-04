@@ -1,8 +1,11 @@
 import { Form, Formik } from 'formik';
-import React from 'react';
-import { axios, Encryption, NoteMessage, RingButton } from '../utils';
+import React, { useState } from 'react';
+import type { IEncryption } from '~/interfaces';
+import { axios, Encryption, NoteMessage, RingButton, useEnc } from '../utils';
 
 const CreateNote = () => {
+  const { data } = useEnc();
+  const [reset, setReset] = useState(false);
   return (
     <section className="border-2 border-black-200 px-7 py-4 w-2/3 md:w-1/2 xl:w-1/3 rounded-md shadow-xl">
       <h1 className="text-xl italic font-semibold">Add a New Note</h1>
@@ -12,11 +15,16 @@ const CreateNote = () => {
         onSubmit={(values, actions) => {
           console.log(values);
           actions.setSubmitting(true);
+          setReset(false);
           axios
-            .post('/notes', values)
+            .post('/notes', {
+              ...values,
+              encObj: (data as IEncryption[])[+values.encryption],
+            })
             .then(() => {
               console.log('create note');
               actions.resetForm();
+              setReset(true);
             })
             .finally(() => actions.setSubmitting(false));
         }}
@@ -24,7 +32,7 @@ const CreateNote = () => {
         {({ errors, touched, setFieldValue, isSubmitting }) => (
           <Form className="flex flex-col mt-2">
             <NoteMessage errors={errors} touched={touched} />
-            <Encryption setFieldValue={setFieldValue} />
+            <Encryption setFieldValue={setFieldValue} reset={reset} />
             <RingButton disabled={isSubmitting} />
           </Form>
         )}

@@ -4,7 +4,7 @@ axios.defaults.baseURL = 'http://localhost:3000/api'; // todo - add env for dev/
 
 axios.interceptors.response.use(
   (resp) => {
-    resp.data = resp.data.rows;
+    resp.data = resp.data.rows || resp.data;
     return resp;
   }, // on success always rows
   function (error) {

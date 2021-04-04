@@ -3,12 +3,20 @@ import React, { Ref } from 'react';
 import { Encryption, NoteMessage, RingButton } from '~/utils';
 
 interface IUpdateForm {
+  setInitial: () => void;
   form: Ref<FormikProps<FormikValues>>;
   canEdit: boolean;
+  reset: boolean;
   setCanEdit: (edit: boolean) => void;
 }
 
-const UpdateForm = ({ form, canEdit, setCanEdit }: IUpdateForm) => {
+const UpdateForm = ({
+  form,
+  canEdit,
+  reset,
+  setInitial,
+  setCanEdit,
+}: IUpdateForm) => {
   return (
     <fieldset disabled={!canEdit}>
       <Formik
@@ -32,14 +40,17 @@ const UpdateForm = ({ form, canEdit, setCanEdit }: IUpdateForm) => {
               touched={touched}
               errors={errors}
             />
-            <Encryption setFieldValue={setFieldValue} />
+            <Encryption setFieldValue={setFieldValue} reset={reset} />
             {canEdit && (
               <div className="flex">
                 <RingButton
                   label="Cancel"
                   className="bg-white ring-2 ring-gray-200 focus:ring-gray-400 mr-5"
                   type="button"
-                  onClick={() => setCanEdit(false)}
+                  onClick={() => {
+                    setInitial();
+                    setCanEdit(false);
+                  }}
                 />
                 <RingButton label="Update" disabled={isSubmitting} />
               </div>

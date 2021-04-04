@@ -5,8 +5,10 @@ import { useEnc } from './useEnc';
 
 const Encryption = ({
   setFieldValue,
+  reset = false,
 }: {
   setFieldValue: (field: string, value: any) => void;
+  reset?: boolean;
 }) => {
   const { data } = useEnc();
   const [encArr, setEncArr] = useState<IEncryption[]>([]);
@@ -16,6 +18,12 @@ const Encryption = ({
       setEncArr(data);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (reset) {
+      setHelpText('');
+    }
+  }, [reset]);
 
   const [helpText, setHelpText] = useState(''),
     firstCaps = (str: string) => str[0].toUpperCase() + str.slice(1);

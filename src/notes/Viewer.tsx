@@ -9,7 +9,7 @@ import {
   useRouteMatch,
 } from 'react-router-dom';
 import type { Note } from 'src/interfaces';
-import { axios } from '~/utils';
+import { axios, useEnc } from '~/utils';
 import NoteHead from './viewer/NoteHead';
 import UpdateForm from './viewer/UpdateForm';
 
@@ -18,7 +18,9 @@ const NoteView = () => {
     { state } = useLocation();
 
   const [canEdit, setCanEdit] = useState(false),
-    [isDecrypted, setIsDecrypted] = useState(false);
+    [reset, setReset] = useState(false),
+    [isDecrypted, setIsDecrypted] = useState(false),
+    { data: encObj } = useEnc();
 
   const qClient = useQueryClient(),
     form = useRef<FormikProps<FormikValues>>(null);
@@ -42,14 +44,20 @@ const NoteView = () => {
   const decryptMsg = () => {
     //todo - get decrypted from api
     const formRef = form.current;
-    if (formRef && note) {
-      if (note.encryption === 2) {
-        //backwards
-        formRef.setFieldValue(
-          'message',
-          note.message.split('').reverse().join(''),
-        );
+    if (formRef && note?.message && encObj) {
+      const encryption = encObj[note.encryption].name;
+      const { message } = note;
+      if (encryption === 'nothing') {
+        return formRef.setFieldValue('message', message);
       }
+      return axios
+        .post('/decrypt', {
+          encryption,
+          message,
+        })
+        .then(({ data }) => {
+          return formRef.setFieldValue('message', data.decrypted);
+        });
     }
   };
   useEffect(() => {
@@ -71,9 +79,15 @@ const NoteView = () => {
   }, [canEdit]);
 
   useEffect(() => {
-    note && form.current?.setFieldValue('encryption', note.encryption);
+    setInitial();
   }, [note]);
 
+  const setInitial = () => {
+    if (reset) setReset(false);
+    note &&
+      form.current?.setFieldValue('encryption', note.encryption) &&
+      setReset(true);
+  };
   return (
     <div className="">
       <NoteHead
@@ -83,13 +97,21 @@ const NoteView = () => {
         canEdit={canEdit}
         isDecrypted={isDecrypted}
       />
-      <div className="mt-3">
-        <div>
-          <p className="">Encrypted Message</p>
-          <p className="">{note?.message}</p>
+      {note && (
+        <div className="mt-3">
+          <div>
+            <p className="">Encrypted Message</p>
+            <p className="">{note?.message}</p>
+          </div>
+          <UpdateForm
+            setInitial={setInitial}
+            reset={reset}
+            canEdit={canEdit}
+            form={form}
+            setCanEdit={setCanEdit}
+          />
         </div>
-        <UpdateForm canEdit={canEdit} form={form} setCanEdit={setCanEdit} />
-      </div>
+      )}
     </div>
   );
 };
