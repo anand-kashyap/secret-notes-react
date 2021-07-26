@@ -5,7 +5,35 @@ module.exports = {
     src: { url: '/dist' },
   },
   plugins: [
-    '@snowpack/plugin-webpack',
+    [
+      '@snowpack/plugin-webpack',
+      {
+        extendConfig: (config) => {
+          // FIXES https://github.com/snowpackjs/snowpack/discussions/2810
+          config.module.rules.find(
+            (rule) =>
+              rule &&
+              rule.use &&
+              rule.use.find((use) => {
+                if (
+                  !use ||
+                  !use.loader ||
+                  !use.loader.includes('babel-loader')
+                ) {
+                  return null;
+                }
+
+                use.options.plugins = (use.options.plugins || []).concat([
+                  '@babel/plugin-proposal-optional-chaining', '@babel/plugin-proposal-nullish-coalescing-operator'
+                ]);
+
+                return use;
+              }),
+          );
+          return config;
+        },
+      },
+    ],
     '@snowpack/plugin-postcss',
     '@snowpack/plugin-react-refresh',
     '@snowpack/plugin-dotenv',
