@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:3000/api'; // todo - add env for dev/prod
+axios.defaults.baseURL = 'https://secret-notes-api.anandkashyap.in/api'; // todo - add env for dev/prod
 
 axios.interceptors.response.use(
   (resp) => {
